@@ -1,14 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import boardDetails from '../views/board-details.vue'
+import taskDetails from '../views/task-details.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/board',
+    name: 'board',
+    component: boardDetails,
+    children: [
+      {
+        path: '/board/task/:id',
+        component: taskDetails
+      },
+    ]
   },
   {
     path: '/about',
