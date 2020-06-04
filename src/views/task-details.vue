@@ -1,13 +1,28 @@
 
 <template>
   <div class="cover" :class="{active: isActive}" @click="closeModal">
-    <div class="window" :class="{active: isActive}" @click.stop>
-      <div>
-        <text-editor :currTask="task" :txtType="'title'" @updateTxt="updateTask" />
+    <div class="task-modal" :class="{active: isActive}" @click.stop>
+      <div class="left-side">
+        <div class="modal-module">
+          <text-editor :currTask="task" :txtType="'title'" @updateTxt="updateTask" />
+        </div>
+        <div class="modal-module">
+          <div class="task-details-title">
+            <span class="far fa-file-alt"></span>
+            <h3>Description</h3>
+          </div>
+          <text-editor  :currTask="task" :txtType="'description'" @updateTxt="updateTask" />
+        </div>
       </div>
-      <div>
-        <h3>Description</h3>
-        <text-editor :currTask="task" :txtType="'description'" @updateTxt="updateTask" />
+      <div class="right-side">
+        <h3>Add to card</h3>
+        <div class="modal-sidebar">
+          <a href="" class="modal-btn">Members</a>
+          <a href="" class="modal-btn">Labels</a>
+          <a href="" class="modal-btn">Checklist</a>
+          <a href="" class="modal-btn">Due date</a>
+          <a href="" class="modal-btn">Attachment</a>
+        </div>
       </div>
     </div>
   </div>
@@ -53,36 +68,3 @@ export default {
 
 
 
-<style lang="scss">
-.cover {
-  align-items: flex-start;
-  background-color: rgba(0, 0, 0, 0.64);
-  display: none;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  overflow-y: auto;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 20;
-
-  &.active {
-    display: flex;
-  }
-  .window {
-    background-color: #f4f5f7;
-    border-radius: 2px;
-    display: none;
-    margin: 48px 0 80px;
-    overflow: hidden;
-    position: relative;
-    width: 768px;
-    z-index: 2;
-    &.active {
-      display: block;
-      position: absolute;
-    }
-  }
-}
-</style>

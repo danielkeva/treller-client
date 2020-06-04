@@ -1,21 +1,24 @@
 <template>
   <div>
-    <p @click="focusInput" v-show="!isEditing">{{taskTxt}}</p>
-    <input
+    <p class="module-text" @click="focusInput" v-show="!isEditing">{{taskTxt || ''}} </p>
+    <!-- <input
       v-if="inputType"
       v-model="task[txtType]"
       v-show="isEditing"
       @blur="updateTxt"
       ref="input"
       :type="inputType"
-    />
-    <textarea
-      v-if="!inputType"
+    />-->
+    <textarea-autosize
+    placeholder="Enter your text here"
+      class="description-edit"
       v-model="task[txtType]"
-      v-show="isEditing"
-      @blur="updateTxt"
+      v-if="isEditing"
+      @blur.native="updateTxt"
       ref="input"
       :type="inputType"
+      :min-height="30"
+      :max-height="350"
     />
   </div>
 </template>
@@ -64,7 +67,7 @@ export default {
       if (!this.isEditing) {
         this.isEditing = true
         this.$nextTick(() => {
-          this.$refs.input.focus();
+          this.$refs.input.$el.focus();
         })
       }
     }
