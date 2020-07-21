@@ -1,24 +1,23 @@
 <template>
-  <div>
-    <p class="module-text" @click="focusInput" v-show="!isEditing">{{taskTxt || ''}} </p>
-    <!-- <input
-      v-if="inputType"
-      v-model="task[txtType]"
-      v-show="isEditing"
-      @blur="updateTxt"
+  <div class="text-editor-wrapper">
+    <div class="module-text" @click="focusInput" v-show="!isEditing">{{value}}</div>
+    <input
+      v-if="isEditing && !isWide"
+      type="text"
+      class="focusClass"
+      :value="value"
+      @blur="updateText"
       ref="input"
-      :type="inputType"
-    />-->
-    <textarea-autosize
-    placeholder="Enter your text here"
-      class="description-edit"
-      v-model="task[txtType]"
-      v-if="isEditing"
-      @blur.native="updateTxt"
+      @input="test"
+    />
+    <textarea
+      v-if="isEditing && isWide"
+      class="focusClass"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+      @blur="updateText"
       ref="input"
-      :type="inputType"
-      :min-height="30"
-      :max-height="350"
+      rows="5"
     />
   </div>
 </template>
@@ -26,54 +25,94 @@
 <script>
 export default {
   props: {
-    currTask: {
-      type: Object,
-      required: true
-    },
-    txtType: {
+    value: {
       type: String,
       required: true
-    }
+    },
+    isFocused: {
+      type: Boolean,
+      required: false
+    },
+    isWide: {
+      type: Boolean,
+      required: false
+    },
+
   },
   data() {
     return {
       isEditing: false,
-      task: null
-    }
-  },
-  computed: {
-    taskTxt() {
-      if (this.txtType === 'title') {
-        return this.task.title
-      } else {
-        return this.task.description
-      }
-    },
-    inputType() {
-      return this.txtType === 'title'
     }
   },
   created() {
-    this.task = JSON.parse(JSON.stringify(this.currTask));
+    if (this.isFocused) {
+      this.focusInput()
+    }
   },
-  methods: {
-    updateTxt() {
-      this.isEditing = false
-      const taskCopy = JSON.parse(JSON.stringify(this.task));
-      this.$emit('updateTxt', taskCopy)
-    },
 
+  methods: {
+    updateText() {
+      this.isEditing = false;
+      this.$emit('inputBlur');
+    },
+    test(ev) {
+      const reg = /^\s+$/; // regex whitespace 
+      const txt = ev.target.value;
+      if (reg.test(txt) || txt === '') {
+        this.$emit('input', this.value);
+      } else {
+        this.$emit('input', txt);
+      }
+    },
+    handleKey(ev) {
+      if (this.isWide) return;
+      if (ev.keyCode === 13) {
+        this.isEditing = false;
+        this.$emit('textSubmitted');
+      }
+    },
     focusInput() {
       if (!this.isEditing) {
-        this.isEditing = true
+        this.isEditing = true;
         this.$nextTick(() => {
-          this.$refs.input.$el.focus();
+          this.$refs.input.focus();
         })
       }
     }
   },
+  mounted() {
+    document.addEventListener('keydown', this.handleKey);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKey);
+  },
 }
 </script>
-
-<style>
+<style lang="scss">
+.text-editor-wrapper {
+  width: 100%;
+}
+.module-text {
+  padding: 10px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  white-space: break-spaces;
+  &:hover {
+    cursor: text;
+  }
+}
+.focusClass {
+  resize: none;
+  width: 90%;
+  padding: 10px;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  &:focus {
+    background: #fff;
+    border: 0;
+    box-shadow: inset 0 0 0 2px #0079bf;
+  }
+}
 </style>
+

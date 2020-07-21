@@ -1,17 +1,28 @@
-import Vue from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
-import store from './store'
+import Vue from 'vue';
+import App from './App.vue';
+import './registerServiceWorker';
+import router from './router';
+import store from './store';
+import './styles/global.scss';
+import './filters/filter.js';
 
-import '@fortawesome/fontawesome-free/css/all.css'
-import '@fortawesome/fontawesome-free/js/all.js'
-import './styles/global.scss'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import VueAutosize from 'vue-autosize'
+Vue.use(VueAutosize)
 
-import TextareaAutosize from 'vue-textarea-autosize'
-Vue.use(TextareaAutosize)
+import VCalendar from 'v-calendar';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
-Vue.config.productionTip = false
+import TextareaAutosize from 'vue-textarea-autosize';
+
+Vue.use(TextareaAutosize);
+Vue.use(ElementUI);
+Vue.use(VCalendar);
+
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
