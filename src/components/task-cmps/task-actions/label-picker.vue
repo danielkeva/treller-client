@@ -19,6 +19,7 @@
             v-model="selectedLabel.title"
             :isFocused="isEditing"
             @inputBlur="updateLabel"
+            type="p"
           />
           <span v-if="isLabelSelected(label)" class="label-selected">
             <i class="fas fa-check"></i>
@@ -29,7 +30,7 @@
         </a>
       </li>
     </ul>
-    <button class="label-btn modal-btn">Create new label</button>
+    <!-- <button class="label-btn modal-btn">Create new label</button> -->
   </div>
 </template>
 
@@ -52,9 +53,6 @@ export default {
       isEditing: false,
       selectedLabel: null,
     }
-  },
-  computed: {
-
   },
   created() {
     this.labelsCopy = [...this.labels]

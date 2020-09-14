@@ -1,6 +1,6 @@
 <template>
   <div class="text-editor-wrapper">
-    <div class="module-text" @click="focusInput" v-show="!isEditing">{{value}}</div>
+    <component class="module-text" :is="type" @click="focusInput" v-show="!isEditing">{{value}}</component>
     <input
       v-if="isEditing && !isWide"
       type="text"
@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       required: false
     },
+    type: {
+      type: String,
+      required: true
+    }
 
   },
   data() {
@@ -67,6 +71,7 @@ export default {
     handleKey(ev) {
       if (this.isWide) return;
       if (ev.keyCode === 13) {
+        console.log('yes youre dumb');
         this.isEditing = false;
         this.$emit('textSubmitted');
       }
@@ -86,6 +91,13 @@ export default {
   destroyed() {
     document.removeEventListener('keydown', this.handleKey);
   },
+  watch: {
+    'isFocused'() {
+      if (this.isFocused) {
+        this.focusInput()
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">

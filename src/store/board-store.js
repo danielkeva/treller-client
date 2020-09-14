@@ -17,7 +17,9 @@ export default ({
         taskLists(state) {
             return state.board.taskLists
         },
-
+        activities(state) {
+            return state.board.activities;
+        },
     },
     mutations: {
         setBoard(state, { board }) {
@@ -53,7 +55,7 @@ export default ({
         removeTask(context, { taskId }) {
             const boardCopy = JSON.parse(JSON.stringify(context.state.board))
             // boardCopy.taskLists.filter(taskList => taskList.id === listId)
-            
+
             boardCopy.taskLists.forEach(taskList => {
                 let idx = taskList.tasks.findIndex(task => task.id === taskId)
                 if (idx !== -1) {
@@ -66,6 +68,11 @@ export default ({
             const boardCopy = JSON.parse(JSON.stringify(context.state.board))
             const idx = boardCopy.taskLists.findIndex(currList => currList.id === taskList.id)
             boardCopy.taskLists.splice(idx, 1, taskList)
+            context.dispatch({ type: 'saveBoard', board: boardCopy })
+        },
+        updateActivities(context, { activity }) {
+            const boardCopy = JSON.parse(JSON.stringify(context.state.board))
+            boardCopy.activities.unshift(activity)
             context.dispatch({ type: 'saveBoard', board: boardCopy })
         },
         saveBoard(context, { board }) {

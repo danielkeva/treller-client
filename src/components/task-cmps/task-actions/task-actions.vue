@@ -27,7 +27,7 @@
       @closeModal="closeModal"
     />
     <button class="modal-btn" @click="toggle('isAttachmentActive')">Attachment</button>
-    <button class="modal-btn" @click="$emit('removeTask')">Delete</button>
+    <!-- <button class="modal-btn" @click="$emit('removeTask')">Delete</button> -->
   </div>
 </template>
 

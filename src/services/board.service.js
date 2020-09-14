@@ -6,6 +6,9 @@ let board = {
     id: 'board1',
     userId: '',
     users: [],
+    activities: [
+    ],
+
     labels: [
         {
             id: 'label1xa',
@@ -131,7 +134,8 @@ export const boardService = {
     getEmptyList,
     getEmptyTask,
     getEmptyCheckList,
-    getEmptyListItem
+    getEmptyListItem,
+    newActivity
 }
 
 function query() {
@@ -188,5 +192,15 @@ function getEmptyListItem() {
         id: utilService.makeId(),
         title: '',
         isDone: false
+    }
+}
+
+function newActivity(cardTxt,boardTxt, taskId) {
+    return {
+        id: utilService.makeId(),
+        cardTxt, // text to display without link to the card
+        boardTxt, // text to display with link to the card
+        taskId,
+        date: Date.now()
     }
 }

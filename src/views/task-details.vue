@@ -5,7 +5,7 @@
       <div class="left-side">
         <div class="modal-module">
           <div class="task-header">
-            <text-editor v-model="taskCopy.title" @inputBlur="updateTask" />
+            <text-editor v-model="taskCopy.title" @inputBlur="updateTask" type="h3" />
           </div>
         </div>
         <div class="modal-module">
@@ -31,6 +31,7 @@
             inputClass="description-edit"
             @inputBlur="updateTask"
             :isWide="true"
+            type="p"
           />
         </div>
         <div class="modal-module">
@@ -41,6 +42,10 @@
             :task="taskCopy"
             @updateTask="updateTask"
           />
+        </div>
+        <div class="modal-module">
+          <h3>Activity</h3>
+          <activity-log :taskId="taskCopy.id" />
         </div>
       </div>
       <div class="right-side">
@@ -63,6 +68,7 @@ import taskActions from '../components/task-cmps/task-actions/task-actions'
 import labelsList from '../components/task-cmps/labels-list'
 import labelPicker from '../components/task-cmps/task-actions/label-picker'
 import taskChecklist from '../components/task-cmps/task-actions/checklist-cmps/task-checklist'
+import activityLog from '../components/activity-log'
 export default {
 
   data() {
@@ -114,7 +120,8 @@ export default {
     taskActions,
     labelPicker,
     labelsList,
-    taskChecklist
+    taskChecklist,
+    activityLog
   }
 }
 </script>

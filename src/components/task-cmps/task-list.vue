@@ -1,45 +1,47 @@
 <template>
   <div class="list-wrapper">
-      <div class="list-header">
-        <text-editor
-          v-if="taskListCopy.title"
-          v-model="taskListCopy.title"
-          @inputBlur="updateList"
-        />
-        <button class="list-menu-btn clear-btn" @click="isMenuOpen=!isMenuOpen">
-          <i class="el-icon-more"></i>
-        </button>
-        <list-menu
-          v-if="isMenuOpen && !isEditing"
-          @addCard="addTask"
-          @closeMenu="isMenuOpen=false"
-          @removeList="removeList"
-        />
-      </div>
-      <div class="list-content">
-        <Container
-          @drop="onDrop"
-          group-name="tasks"
-          :get-child-payload="getTaskPayload(taskListCopy.id)"
-          drag-class="card-ghost"
-          drop-class="card-ghost-drop"
-          drag-handle-selector=".task-preview"
-          :drag-begin-delay="delayDrag"
-        >
-          <Draggable v-for="task in taskListCopy.tasks" :key="task.id">
-            <task-preview :task="task" />
-          </Draggable>
-        </Container>
-      </div>
-      <div class="list-footer">
-        <button v-if="!isEditing" @click="addTask">add new task</button>
-        <text-editor
-          v-if="newTask && isEditing"
-          v-model="newTask.title"
-          @inputBlur="updateList"
-          :isFocused="isEditing"
-        />
-      </div>
+    <div class="list-header">
+      <text-editor
+        v-if="taskListCopy.title"
+        v-model="taskListCopy.title"
+        @inputBlur="updateList"
+        type="h3"
+      />
+      <button class="list-menu-btn clear-btn" @click="isMenuOpen=!isMenuOpen">
+        <i class="el-icon-more"></i>
+      </button>
+      <list-menu
+        v-if="isMenuOpen && !isEditing"
+        @addCard="addTask"
+        @closeMenu="isMenuOpen=false"
+        @removeList="removeList"
+      />
+    </div>
+    <div class="list-content">
+      <Container
+        group-name="tasks"
+        @drop="onDrop"
+        :get-child-payload="getTaskPayload(taskListCopy.id)"
+        drag-class="card-ghost"
+        drop-class="card-ghost-drop"
+        :drag-begin-delay="delayDrag"
+      >
+        <!-- drag-handle-selector=".task-preview" -->
+        <Draggable v-for="task in taskListCopy.tasks" :key="task.id">
+          <task-preview :task="task" />
+        </Draggable>
+      </Container>
+    </div>
+    <div class="list-footer">
+      <button v-if="!isEditing" @click="addTask">add new task</button>
+      <text-editor
+        v-if="newTask && isEditing"
+        v-model="newTask.title"
+        @inputBlur="updateList"
+        :isFocused="isEditing"
+        type="p"
+      />
+    </div>
   </div>
 </template>
 
@@ -100,6 +102,7 @@ export default {
       this.$emit('boardUpdated', boardCopy)
     },
     onDrop(dropResult) {
+      console.log('dropresu;t',dropResult);
       this.taskListCopy.tasks = utilService.applyDrag(this.taskListCopy.tasks, dropResult);
       this.$emit('updateList', this.taskListCopy)
     },

@@ -6,6 +6,8 @@ import store from './store';
 import './styles/global.scss';
 import './filters/filter.js';
 
+
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueAutosize from 'vue-autosize'
